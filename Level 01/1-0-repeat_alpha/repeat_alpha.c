@@ -1,43 +1,35 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   repeat_alpha.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fwuensch <fwuensch@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/14 14:55:21 by fwuensch          #+#    #+#             */
-/*   Updated: 2017/07/14 14:59:21 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include <unistd.h>
 
-int		letter_count(char c)
+int	letter_count(char c)
 {
-	int	repeat;
-
 	if (c >= 'A' && c <= 'Z')
-		repeat = c - 'A' + 1;
+		return (c - 'A' + 1);
 	else if (c >= 'a' && c <= 'z')
-		repeat = c - 'a' + 1;
+		return (c - 'a' + 1);
 	else
-		repeat = 1;
-	return (repeat);
+		return (1);
 }
 
-int		main(int ac, char **av)
+int	main(int argc, char **argv)
 {
+	int	i;
 	int	repeat;
 
-	if (ac == 2)
+	i = 0;
+	if (argc == 2)
 	{
-		while (*av[1])
+		while (argv[1][i])
 		{
-			repeat = letter_count(*av[1]);
-			while (repeat--)
-				write(1, av[1], 1);
-			av[1]++;
+			repeat = letter_count(argv[1][i]);
+			while (repeat > 0)
+			{
+				write(1, &argv[1][i], 1);
+				repeat--;
+			}
+			i++;
 		}
 	}
-	ft_putchar('\n');
+	write(1, "\n", 1);
+	return (0);
 }
