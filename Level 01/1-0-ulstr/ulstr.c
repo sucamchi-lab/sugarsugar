@@ -1,36 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ulstr.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 15:11:26 by angavrel          #+#    #+#             */
-/*   Updated: 2017/07/14 15:28:42 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-int		main(int ac, char **av)
+int	main(int argc, char **argv)
 {
-	if (ac == 2)
+	int	i;
+
+	// we only need one parameter
+	if (argc != 2)
 	{
-		while (*av[1])
-		{
-			if (*av[1] >= 'A' && *av[1] <= 'Z')
-			{
-				*av[1] += 32;
-				write(1, av[1], 1);
-			}
-			else if (*av[1] >= 'a' && *av[1] <= 'z')
-			{
-				*av[1] -= 32;
-				write(1, av[1], 1);
-			}
-			av[1]++;
-		}
+		write(1, "\n", 1);
+		return (0);
+	}
+	// reverse the case of all letters
+	i = 0;
+	while (argv[1][i] != '\0')
+	{
+		if (argv[1][i] >= 'A' && argv[1][i] <= 'Z')
+			argv[1][i] += 32;
+		else if (argv[1][i] >= 'a' && argv[1][i] <= 'z')
+			argv[1][i] -= 32;
+		write(1, &argv[1][i], 1);
+		i++;
 	}
 	write(1, "\n", 1);
-	return (1);
+	return (0);
 }
