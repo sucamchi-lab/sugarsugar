@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 20:56:36 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/03 20:57:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2026/03/10 12:59:35 by scamlett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void	ft_putstr(char *str)
 {
 	while (*str)
-		write(1, str++, 1);
+		write(1, str, 1);
+	str++;
 }
