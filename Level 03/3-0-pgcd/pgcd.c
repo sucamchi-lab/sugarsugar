@@ -1,24 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int		pgcd(unsigned int nb, unsigned int nb2)
+void  pgcd(int nb1, int nb2)
 {
-	int i;
+	int div;
+	int pgcd;
 
-	i = nb;
-	while (i > 0)
+	div = 1;
+	if (nb1 <= 0 || nb2 <= 0)
+		return ;
+	while (div <= nb1 || div <= nb2)
 	{
-		if (nb % i == 0 && nb2 % i == 0)
-			return (i);
-		i--;
+		if (nb1 % div == 0 && nb2 % div == 0)
+			pgcd = div;
+		div++;
 	}
-	return (1);
+	printf("%d", pgcd);
 }
 
-int	main(int argc, char **argv)
+int    main(int argc, char **argv)
 {
 	if (argc == 3)
-		printf("%d", pgcd(atoi(argv[1]), atoi(argv[2])));
+		pgcd(atoi(argv[1]), atoi(argv[2]));
 	printf("\n");
 	return (0);
 }

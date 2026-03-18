@@ -1,55 +1,66 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/27 10:58:15 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 10:58:30 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stdlib.h>
+#include <stdio.h>
 
-int isblank(char c)
+int		ft_iswhitespace(char const c)
 {
-	if (c <= 32)
+	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\r' || c == '\f')
 		return (1);
 	return (0);
 }
 
-int		isvalid(char c, int base)
+int		base(int c, int base)
 {
-	char digits[17] = "0123456789abcdef";
-	char digits2[17] = "0123456789ABCDEF";
+	char	*str;
+	char	*str2;
+	int		i;
 
-	while (base--)
-		if (digits[base] == c || digits2[base] == c)
-			return (1);
-	return (0);
-}
-
-int		value_of(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (c - '0');
-	else if (c >= 'a' && c <= 'f')
-		return (c - 'a' + 10);
-	else if (c >= 'A' && c <= 'F')
-		return (c - 'A' + 10);
-	return (0);
+	str = "0123456789abcdef";
+	str2 = "0123456789ABCDEF";
+	i = 0;
+	while (i < base)
+	{
+		if (c == str[i] || c == str2[i])
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 int		ft_atoi_base(const char *str, int str_base)
 {
-	int result;
-	int sign;
+	int		nb;
+	int		negatif;
+	int		i;
 
-	result = 0;
-	while (isblank(*str))
-		str++;
-	sign = (*str == '-') ? -1 : 1;
-	(*str == '-' || *str == '+') ? ++str : 0;
-	while (isvalid(*str, str_base))
-		result = result * str_base + value_of(*str++);
-	return (result * sign);
+	nb = 0;
+	negatif = 0;
+	i = 0;
+	while (ft_iswhitespace(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			negatif = 1;
+		i++;
+	}
+	while (base(str[i], str_base) != -1)
+	{
+		nb = nb * str_base;
+		nb = nb + base(str[i], str_base);
+		i++;
+	}
+	if (negatif)
+		return (-nb);
+	return (nb);
+}
+
+int		main(int ac, char **av)
+{
+	int		nb;
+	if (ac >= 3)
+	{
+		nb = ft_atoi_base(av[1], atoi(av[2]));
+		printf("%d\n", nb);
+	}
+	return (0);
 }

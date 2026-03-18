@@ -1,7 +1,6 @@
-
-int	ft_strlen(char *str)
+int		ft_strlen(char *str)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (str[i])
@@ -9,14 +8,16 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-// DO NOT SUBMIT ANYTHING BELOW
+// Ne pas rendre la main - Tester //
 
+#include <unistd.h>
 #include <stdio.h>
 
-int	main(void)
+int		main(int ac, char **av)
 {
-	char	str[] = "Flavio";
-
-	printf("%d\n", ft_strlen(str));
+	if (ac != 2)
+		write(1, "Erreur d'arguments !\n", 22);
+	else
+		printf("%d\n", ft_strlen(av[1]));
 	return (0);
 }

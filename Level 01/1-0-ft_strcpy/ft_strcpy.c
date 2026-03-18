@@ -1,7 +1,6 @@
-
 char	*ft_strcpy(char *s1, char *s2)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (s2[i])
@@ -13,17 +12,17 @@ char	*ft_strcpy(char *s1, char *s2)
 	return (s1);
 }
 
-// DO NOT SUBMIT ANYTHING BELOW
+// NE pas rendre la main - Tester //
 
 #include <stdio.h>
 
-int	main(void)
+int		main(void)
 {
-	char	str1[] = "Flavio";
-	char	str2[] = "Gaucho";
+	char	dst[12];
+	char	*src;
 
-	printf("%s\n", str1);
-	ft_strcpy(str1, str2);
-	printf("%s\n", str1);
+	src = "Hello 42 !";
+	ft_strcpy(dst, src);
+	printf("%s\n", dst);
 	return (0);
 }

@@ -1,53 +1,44 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   reverse_bits.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/12 20:19:07 by angavrel          #+#    #+#             */
-/*   Updated: 2017/07/20 21:23:31 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <unistd.h>
-
-unsigned char reverse_bits(unsigned char b)
+unsigned char   reverse_bits(unsigned char octet)
 {
-	b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
-	b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
-	b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
-	return b;
+    return  (((octet >> 0) & 1) << 7) | \
+            (((octet >> 1) & 1) << 6) | \
+            (((octet >> 2) & 1) << 5) | \
+            (((octet >> 3) & 1) << 4) | \
+            (((octet >> 4) & 1) << 3) | \
+            (((octet >> 5) & 1) << 2) | \
+            (((octet >> 6) & 1) << 1) | \
+            (((octet >> 7) & 1) << 0);
 }
 
-unsigned char reverse_bits2(unsigned char b)
+unsigned char	reverse_bits2(unsigned char octet)
 {
-	unsigned char	r = 0;
-	unsigned		char_len = 8;
+	unsigned char	res;
+	int				count;
 
-	while (char_len--)
+	res = 0;
+	count = 8;
+	while (count)
 	{
-		r = (r << 1) | (b & 1);
-		b >>= 1;
+		res = res * 2 + (octet % 2);
+		octet = octet / 2;
+		count--;
 	}
-	return (r);
+	return (res);
 }
 
-unsigned char reverse_bits3(unsigned char b)
-{
-	b = (b * 0x0202020202ULL & 0x010884422010ULL) % 0x3ff;
-	return (b);
-}
+// Ne pas rendre la main - Tester //
 
-int	main(void)
-{
-	unsigned char c;
+#include <stdlib.h>
+#include <stdio.h>
 
-	c = '&';
-	write(1, &c, 1);
-	write(1, "\n", 1);
-	c = reverse_bits(c);
-	write(1, &c, 1);
-	write(1, "\n", 1);
+int		main(int ac, char **av)
+{
+	if (ac == 2)
+	{
+		printf("%d\n", reverse_bits(atoi(av[1])));
+		printf("%d\n", reverse_bits2(atoi(av[1])));
+	}
+	else
+		printf("%s\n", "Aucun d'argument");
 	return (0);
 }

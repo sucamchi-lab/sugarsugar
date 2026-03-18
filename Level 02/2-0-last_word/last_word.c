@@ -1,39 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   last_word.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 15:32:04 by angavrel          #+#    #+#             */
-/*   Updated: 2017/07/14 16:53:34 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-int		ft_isblank(char c)
+void	last_word(char *str)
 {
-	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
+	int		j;
+	int		i;
+
+	i = 0;
+	j = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == ' ' && str[i + 1] >= 33 && str[i + 1] <= 127)
+			j = i + 1;
+		i++;
+	}
+	while (str[j] >= 33 && str[j] <= 127)
+	{
+		write(1, &str[j], 1);
+		j++;
+	}
 }
 
-int		main(int ac, char **av)
+int		main(int argc, char **argv)
 {
-	if (ac == 2)
-	{
-		while (*av[1])
-			av[1]++;
-		av[1]--;
-		while (ft_isblank(*av[1]))
-			av[1]--;
-		while (*av[1] && !ft_isblank(*av[1]))
-			av[1]--;
-		av[1]++;
-		while (*av[1] && !ft_isblank(*av[1]))
-			write(1, av[1]++, 1);
-	}
+	if (argc == 2)
+		last_word(argv[1]);
 	write(1, "\n", 1);
 	return (0);
 }
+

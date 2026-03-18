@@ -1,46 +1,36 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   fprime.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fwuensche <fwuensche@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/04 15:47:01 by fwuensche         #+#    #+#             */
-/*   Updated: 2019/03/05 07:40:34 by fwuensche        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
 #include <stdio.h>
 
-void	fprime(unsigned int nb)
+void	ft_fprime(char *str)
 {
-	unsigned int	prime;
+	int		nb;
+	int		div;
 
+	div = 2;
+	nb = atoi(str);
 	if (nb == 1)
 		printf("1");
-	else
+	if (nb <= 1)
+		return ;
+	while (div <= nb)
 	{
-		prime = 2;
-		while (nb > 1)
+		if (nb % div == 0)
 		{
-			if (nb % prime == 0)
-			{
-				printf("%d", prime);
-				nb /= prime;
-				if (nb > 1)
-					printf("*");
-				prime--;
-			}
-			prime++;
+			printf("%d", div);
+			if (nb == div)
+				return ;
+			printf("*");
+			nb = nb / div;
+			div = 1;
 		}
+		div++;
 	}
 }
 
-int		main(int ac, char **av)
+int		main(int argc, char **argv)
 {
-	if (ac == 2 && *av[1])
-		fprime(atoi(av[1]));
+	if (argc == 2)
+		ft_fprime(argv[1]);
 	printf("\n");
 	return (0);
 }

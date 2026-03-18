@@ -1,47 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   inter.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fwuensch <fwuensch@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/14 16:28:43 by fwuensch          #+#    #+#             */
-/*   Updated: 2017/07/14 16:47:09 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-void solve(char *str1, char *str2) {
-    int i;
-    int j;
-    int ascii[256] = {0};
+int		checkchar(char *str, char c, int len)
+{
+	int		i;
 
-    i = 0;
-    while (str2[i])
-    {
-        if (ascii[(int)str2[i]] == 0)
-            ascii[(int)str2[i]] = 1;
-        i++;
-    }
-
-    i = 0;
-    j = 0;
-    while (str1[i])
-    {
-        if (ascii[(int)str1[i]] == 1)
-        {
-            ascii[(int)str1[i]] = 2;
-            write(1, &str1[i], 1);
-        }
-        i++;
-    }
-
+	i = 0;
+	while (str[i] && (i < len || len == -1))
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int	main(int argc, char **argv) {
-	if (argc == 3)
-		solve(argv[1], argv[2]);
+int		main(int ac, char **av)
+{
+	int		i;
+
+	i = 0;
+	if (ac == 3)
+	{
+		while (av[1][i])
+		{
+			if (!checkchar(av[1], av[1][i], i) && checkchar(av[2], av[1][i], -1))
+				write(1, av[1] + i, 1);
+			i++;
+		}
+	}
 	write(1, "\n", 1);
-	return 0;
+	return (0);
 }

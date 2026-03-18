@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   paramsum.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/07 17:58:26 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/08 17:15:42 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
 void	ft_putchar(char c)
@@ -17,16 +5,23 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-void	ft_putnbr(int n)
+void	ft_putnbr(int nb)
 {
-	if (n > 9)
-		ft_putnbr(n / 10);
-	ft_putchar(n % 10 +'0');
+	if (nb > 9)
+	{
+		ft_putnbr(nb / 10);
+		ft_putnbr(nb % 10);
+	}
+	else
+	{
+		ft_putchar('0' + nb);
+	}
 }
 
-int		main(int ac, char **av)
+int		main(int argc, char **argv)
 {
-	av = 0;
-	ft_putnbr(ac - 1);
-	write(1, "\n", 1);
+	(void)argv;
+	ft_putnbr(argc - 1);
+	ft_putchar('\n');
+	return (0);
 }

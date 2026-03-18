@@ -1,26 +1,45 @@
-
-
 #include <unistd.h>
 
-void	ft_putchar(char c)
+char	letter(char c)
 {
-	write(1, &c, 1);
+	char	*s1;
+	char	*s2;
+	int		i;
+
+	s1 = "abcdefghijklmnopqrstuvwxyz";
+	s2 = "nopqrstuvwxyzabcdefghijklm";
+	i = 0;
+	while (s1[i])
+	{
+		if (c == s1[i])
+			return(s2[i]);
+		i++;
+	}
+	return (0);
 }
 
-int	rot_13(char c)
+int		main(int ac, char **av)
 {
-	if ((c >= 'A' && c <= 'M') || (c >= 'a' && c <= 'm'))
-		c += 13;
-	else if ((c >= 'N' && c <= 'Z') || (c >= 'n' && c <= 'z'))
-		c -= 13;
-	return (c);
-}
+	int		i;
 
-int	main(int argc, char **argv)
-{
-	if (argc == 2)
-		while (*argv[1])
-			ft_putchar(rot_13(*argv[1]++));
-	ft_putchar('\n');
+	i = 0;
+	if (ac == 2)
+	{
+		while (av[1][i])
+		{
+			if (av[1][i] >= 'a' && av[1][i] <= 'z')
+				av[1][i] = letter(av[1][i]);
+			else if (av[1][i] >= 'A' && av[1][i] <= 'Z')
+				av[1][i] = letter(av[1][i] + 32) - 32;
+			i++;
+		}
+		i = 0;
+		while (av[1][i])
+		{
+			write(1, &av[1][i], 1);
+			i++;
+		}
+	}
+	write(1, "\n", 1);
 	return (0);
 }

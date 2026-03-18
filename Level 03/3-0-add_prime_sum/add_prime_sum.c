@@ -1,73 +1,82 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   add_prime_sum.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 17:53:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/13 13:14:50 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-void	ft_putchar(char c)
+int		ft_atoi(char *str)
 {
-	write(1, &c, 1);
+	int		i;
+	int		nbr;
+
+	i = 0;
+	nbr = 0;
+	if (str[i] == '-')
+		return (0);
+	while (str[i] != '\0')
+	{
+		if (!(str[i] >= 48 && str[i] <= 57))
+			return (0);
+		nbr = nbr * 10;
+		nbr = nbr + (str[i] - 48);
+		i++;
+	}
+	return (nbr);
 }
 
-void	ft_putposnbr(int n)
+void	ft_putnbr(int nbr)
 {
-	if (n > 9)
-		ft_putposnbr(n / 10);
-	ft_putchar(n % 10 + '0');
+	char	c;
+
+	if (nbr >= 10)
+	{
+		ft_putnbr(nbr / 10);
+		ft_putnbr(nbr % 10);
+	}
+	else
+	{
+		c = nbr + '0';
+		write(1, &c, 1);
+	}
 }
 
-int		ft_atoi_nc(char *s)
+int		ft_is_prim(int nbr)
 {
-	int		r;
-
-	r = 0;
-	while (*s >= '0' && *s <= '9')
-		r = r * 10 + *s++ - '0';
-	return (r);
-}
-
-
-int is_prime(int n)
-{
-	int i;
+	int		i;
 
 	i = 2;
-	while (i < n)
-		if (!(n % i++))
+	while (i < nbr)
+	{
+		if (nbr % i == 0)
 			return (0);
+		i++;
+	}
 	return (1);
 }
 
-
-void	add_prime_sum(int n)
+void	ft_add_prim_sum(int nbr)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 
+	i = 2;
 	count = 0;
-	if (n == 1)
-		count = 1;
-	i = 1;
-	while (++i <= n)
-		if (is_prime(i))
-			count += i;
-	ft_putposnbr(count);
+	while (i <= nbr)
+	{
+		if (ft_is_prim(i))
+			count = count + i;
+		i++;
+	}
+	ft_putnbr(count);
 }
 
-int		main(int ac, char **av)
+int		main(int argc, char **argv)
 {
-	if (ac == 2 && ft_atoi_nc(av[1]) > 0)
-		add_prime_sum(ft_atoi_nc(av[1]));
+	char	zero;
+	char	rtn;
+
+	zero = '0';
+	rtn = '\n';
+	if (argc == 2)
+		ft_add_prim_sum(ft_atoi(argv[1]));
 	else
-		write(1, "0", 1);
-	write(1, "\n", 1);
-	return (1);
+		write(1, &zero, 1);
+	write(1, &rtn, 1);
+	return (0);
 }

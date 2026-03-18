@@ -1,26 +1,47 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_rrange.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/06 15:46:02 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/21 12:52:42 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
 
-int     *ft_rrange(int start, int end)
+int		ft_abs(int i)
 {
-	int	*r;
-	int	len;
+	if (i < 0)
+		return (-i);
+	return (i);
+}
 
-	len = (end >= start) ? end - start + 1 : start - end + 1;
-	if (!(r = (int*)malloc(sizeof(int) * len)))
+int		*ft_range(int start, int end)
+{
+	int		*tab;
+	int		i;
+
+	i = 0;
+	while ((start + i) <= end)
+		i++;
+	if (!(tab = (int *)malloc(sizeof(int) * i)))
 		return (NULL);
-	 while (len--)
-		 r[len] = (end >= start) ? start++ : start--;
-	return (r);
+	i = -1;
+	while ((start  + ++i) <= end)
+		tab[i] = start + i;
+	return (tab);
+}
+
+int		*ft_rangei(int start, int end)
+{
+	int		*tab;
+	int		i;
+
+	i = 0;
+	while ((start + i) <= end)
+		i++;
+	if (!(tab = (int *)malloc(sizeof(int) * i)))
+		return (NULL);
+	i = -1;
+	while ((end - ++i) >= start)
+		tab[i] = end - i;
+	return (tab);
+}
+
+int		*ft_rrange(int start, int end)
+{
+	if (start < end)
+		return (ft_rangei(start, end));
+	return (ft_range(end, start));
 }

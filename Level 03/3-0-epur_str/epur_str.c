@@ -1,56 +1,75 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   epur_str.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/21 12:05:27 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/21 12:42:46 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#include <stdlib.h>
 #include <unistd.h>
 
-int		ft_strlen(char *s)
+int		ft_strlen(char *str)
 {
-	int i;
+	int		i;
 
 	i = 0;
-	while (s[i])
+	while (str[i])
 		i++;
 	return (i);
 }
 
-int		ft_isblank(char c)
+char	*trim_begin_end_space(char *str)
 {
-	if (c == ' ' || c == '\t')
-		return (1);
-	if (c >= 9 && c <= 13)
-		return (1);
-	return (0);
-}
+	char	*s;
+	int		i;
+	int		j;
+	int		k;
 
-void	epurstr(char *s)
-{
-	int len = ft_strlen(s);
-
-	while (len && ft_isblank(s[len - 1]))
-		--len;
-	while (len && ft_isblank(*s) && *s++)
-		--len;
-	while (len--)
+	i = 0;
+	k = 0;
+	j = ft_strlen(str);
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	while (str[j - 1] == ' ' || str[j - 1] == '\t')
+		j--;
+	s = (char*)malloc(sizeof(char) * (j - i + 1));
+	if (s == NULL)
+		return (NULL);
+	while (k < j - i)
 	{
-		if (!ft_isblank(*s) || (*(s + 1) && !ft_isblank(*(s + 1))))
-			write(1, s, 1);
-		s++;
+		s[k] = str[i + k];
+		k++;
 	}
+	s[k] = '\0';
+	return (s);
 }
 
-int		main(int ac, char **av)
+void	epur_str(char *str)
 {
-	if (ac == 2 && *av[1])
-		epurstr(av[1]);
+	int		i;
+	int		first;
+
+	i = 0;
+	first = 1;
+	str = trim_begin_end_space(str);
+	if (str != NULL)
+	{
+		while (str[i])
+		{
+			if (str[i] == ' ' || str[i] == '\t')
+			{
+				if (first == 1)
+					write(1, &str[i], 1);
+				first = 0;
+			}
+			else
+			{
+				first = 1;
+				write(1, &str[i], 1);
+			}
+			i++;
+		}
+	}
+	free(str);
+}
+
+int		main(int argc, char **argv)
+{
+	if (argc == 2)
+		epur_str(argv[1]);
 	write(1, "\n", 1);
 	return (0);
 }

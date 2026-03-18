@@ -1,41 +1,37 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   print_bits.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/08 15:08:22 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/04 17:08:16 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
 void	print_bits(unsigned char octet)
 {
-	int	i;
+	char	bits[8];
+	int		nb;
+	int		count;
+	char	z;
 
-	i = 128;
-	while (octet >= 0 && i)
+	nb = octet;
+	count = 0;
+	while (count < 8)
 	{
-		(octet / i) ? write(1, "1", 1) : write(1, "0", 1);
-		(octet / i) ? octet -= i : 0;
-		i /= 2;
+		bits[count] = nb % 2;
+		nb = nb / 2;
+		count++;
+	}
+	while (count - 1 >= 0)
+	{
+		z = bits[count - 1] + 48;
+		write(1, &z, 1);
+		count--;
 	}
 }
 
-void	print_bits2(unsigned char octet)
-{
-	int	i = 256;
-	while (i >>= 1)
-		(octet & i) ? write(1, "1", 1) : write(1, "0", 1);
-}
+// Ne pas rendre la main - Tester //
+#include <stdio.h>
+#include <stdlib.h>
 
-int		main(void)//
-{//
-	int n = 64;
-	print_bits(n);//
-	write(1, "\n", 1);//
-	print_bits2(n);//
-}//
+int		main(int ac, char **av)
+{
+	if (ac == 2)
+		print_bits(atoi(av[1]));
+	else
+		printf("Erreur d'arguments\n");
+	return (0);
+}

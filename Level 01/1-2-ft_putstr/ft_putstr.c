@@ -1,20 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 20:56:36 by angavrel          #+#    #+#             */
-/*   Updated: 2026/03/10 12:59:35 by scamlett         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
 void	ft_putstr(char *str)
 {
-	while (*str)
-		write(1, str, 1);
-	str++;
+	int		i;
+
+	i = -1;
+	while (str[++i])
+		write(1, &str[i], 1);
+}
+
+// Ne pas rendre la main - Tester //
+
+int		main(int ac, char **av)
+{
+	(void)ac;
+	ft_putstr(av[1]);
+	ft_putstr("\n");
+	return (0);
 }

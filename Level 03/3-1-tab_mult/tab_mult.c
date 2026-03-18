@@ -1,57 +1,68 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tab_mult.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/06 16:10:11 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 16:28:26 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-void	ft_putchar(char c)
+int		ft_strlen(char *str)
 {
-	write(1, &c, 1);
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-void	ft_putposnbr(int n)
+void	ft_putnbr(int nb)
 {
-	if (n > 9)
-		ft_putposnbr(n / 10);
-	ft_putchar(n % 10 + '0');
-}
+	char	c;
 
-int		ft_atoi_osefvalid(char *s)
-{
-	int		r;
-
-	r = 0;
-	while (*s >= '0' && *s <= '9')
-		r = r * 10 + *s++ - '0';
-	return (r);
-}
-
-void	tab_mult(int n)
-{
-	int i = 1;
-	while (i < 10)
+	if (nb > 0)
 	{
-		ft_putposnbr(i);
-		write(1," x ", 3);
-		ft_putposnbr(n);
-		write(1, " = ", 3);
-		ft_putposnbr(i++ * n);
-		write(1, "\n", 1);
+		ft_putnbr(nb / 10);
+		c = nb % 10 + '0';
+		write(1, &c, 1);
 	}
 }
 
-int		main(int ac, char **av)
+int		ft_atoi(char *str)
 {
-	if (ac == 2)
-		tab_mult(ft_atoi_osefvalid(av[1]));
+	int		i;
+	int		total;
+	int		nb;
+
+	i = 1;
+	total = str[0] - '0';
+	while (str[i])
+	{
+		total *= 10;
+		nb = str[i] - '0';
+		total += nb;
+		i++;
+	}
+	return (total);
+}
+
+void	tab_mult(char *str)
+{
+	int		nb;
+	int		i;
+
+	i = 1;
+	nb = ft_atoi(str);
+	while (i < 10)
+	{
+		ft_putnbr(i);
+		write(1, " x ", 3);
+		ft_putnbr(nb);
+		write(1, " = ", 3);
+		ft_putnbr(nb * i);
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	if (argc > 1)
+		tab_mult(argv[1]);
 	else
 		write(1, "\n", 1);
 	return (0);

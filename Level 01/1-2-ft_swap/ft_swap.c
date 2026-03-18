@@ -1,20 +1,28 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_swap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/07 16:31:30 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/08 17:22:35 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-void	ft_swap(int	*a, int *b)
+void	ft_swap(int *a, int *b)
 {
-	int temp;
+	int		tmp;
 
-	temp = *a;
+	tmp = *a;
 	*a = *b;
-	*b = temp;
+	*b = tmp;
+}
+
+// Ne pas rendre la main - Tester //
+
+#include <stdio.h>
+
+int		main(void)
+{
+	int		a;
+	int		b;
+
+	a = 24;
+	b = 42;
+	printf("a : %d\n", a);
+	printf("b : %d\n", b);
+	ft_swap(&a, &b);
+	printf("%s\n", "Resultat");
+	printf("a : %d\n", a);
+	printf("b : %d\n", b);
+	return (0);
 }

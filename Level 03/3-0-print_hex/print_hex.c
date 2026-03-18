@@ -1,45 +1,53 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   print_hex.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/30 19:47:01 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/03 21:33:08 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-int		ft_atoi(char *s)
+void	ft_putchar(char c)
 {
-	long	r;
-	int		sign;
-
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	sign = (*s == '-') ? -1 : 1;
-	(*s == '-' || *s == '+') ? s++ : s;
-	r = 0;
-	while (*s >= '0' && *s <= '9')
-		r = r * 10 + *s++ - '0';
-	return ((int)r * sign);
+	write(1, &c, 1);
 }
 
-void	print_hex(int n)
+void	print_hex(unsigned int n)
 {
 	if (n >= 16)
 		print_hex(n / 16);
-	n = n % 16;
-	n += n < 10 ? '0' : 'a' - 10;
-	write(1, &n, 1);
+	if (n % 16 < 10)
+		ft_putchar((n % 16) + 48);
+	else
+		ft_putchar((n % 16) - 10 + 97);
+}
+
+int		ft_atoi_for_printhex(char *str)
+{
+	int		i;
+	int		result;
+
+	i = 0;
+	while (*str && (*str == ' ' 
+				|| *str == '\t' || *str == '\n' || *str == '\n'))
+		str++;
+	if (str[i] == '-')
+		return (-1);
+	if (str[i] == '+')
+		i++;
+	result = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
+		result = result * 10 + (str[i] - 48);
+		i++;
+	}
+	return (result);
 }
 
 int		main(int ac, char **av)
 {
+	int		nb;
+
 	if (ac == 2)
-		print_hex(ft_atoi(av[1]));
+	{
+		if ((nb = ft_atoi_for_printhex(av[1])) != -1)
+			print_hex(nb);
+	}
 	write(1, "\n", 1);
-	return (1);
+	return (0);
 }

@@ -1,31 +1,36 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 18:22:00 by angavrel          #+#    #+#             */
-/*   Updated: 2017/07/14 16:14:13 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
 
 char	*ft_strdup(char *src)
 {
-	char	*s;
-	int		len;
+	int		i;
+	char	*dest;
 
-	while (src[len])
-		++len;
-	if (!(s = (char *)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	s[len] = '\0';
-	while (len >= 0)
+	i = 0;
+	while(src[i])
 	{
-		s[len] = src[len];
-		len--;
+		i++;
 	}
-	return (s);
+	if ((dest = (char *)malloc(sizeof(char) * (i + 1))) == NULL)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return(dest);
+}
+
+// Ne pas rendre la main - Tester //
+
+#include <unistd.h>
+#include <stdio.h>
+
+int		main(void)
+{
+	char	*src;
+
+	src = "coucou";
+	printf("%s \n", ft_strdup(src));
+	return (0);
 }

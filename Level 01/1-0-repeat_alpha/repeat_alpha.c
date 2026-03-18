@@ -1,35 +1,41 @@
-
 #include <unistd.h>
 
-int	letter_count(char c)
+int		main(int ac, char **av)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c - 'A' + 1);
-	else if (c >= 'a' && c <= 'z')
-		return (c - 'a' + 1);
+	int		i;
+	int		c;
+
+	if (ac !=2)
+		write(1, "\n", 1);
 	else
-		return (1);
-}
-
-int	main(int argc, char **argv)
-{
-	int	i;
-	int	repeat;
-
-	i = 0;
-	if (argc == 2)
-	{
-		while (argv[1][i])
+	{	
+		i = 0;
+		while (av[1][i])
 		{
-			repeat = letter_count(argv[1][i]);
-			while (repeat > 0)
+			if (av[1][i] >= 65 && av[1][i] <= 90)
 			{
-				write(1, &argv[1][i], 1);
-				repeat--;
+				c = av[1][i] - 65 + 1;
+				while (c > 0)
+				{
+					write(1, &av[1][i], 1);
+					c--;
+				}
 			}
+			else if (av[1][i] >= 97 && av[1][i] <= 122)
+			{
+				c = av[1][i] - 97 + 1;
+				while (c > 0)
+				{
+					write(1, &av[1][i], 1);
+					c--;
+				}
+			}
+			else
+				write(1, &av[1][i], 1);
 			i++;
 		}
+		write(1, "\n", 1);
 	}
-	write(1, "\n", 1);
 	return (0);
 }
+

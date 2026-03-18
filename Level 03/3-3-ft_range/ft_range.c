@@ -1,27 +1,28 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_range.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/07 19:31:19 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/08 16:40:56 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
 
-int		*ft_range(int min, int max)
+int		ft_abs(int n)
 {
-	int		n;
-	int		*s;
-
-	n = max >= min ? max - min : min - max;
-	if (!(s = (int *)malloc(sizeof(int) * (n))))
-		return (NULL);
-	while (max != min)
-		*s++ = max > min ? min++ : min--;
-	*s = min;
-	return (s - n);
+	return (n >= 0 ? n : -n);
 }
+
+int		*ft_range(int start, int end)
+{
+	int				*result;
+	unsigned int	size;
+	unsigned int	i;
+	int				is_negative;
+
+	size = ft_abs(start - end);
+	result = (int *)malloc(sizeof(*result) * (size + 1));
+	is_negative = start >= end ? -1 : 1;
+	i = 0;
+	while (i <= size)
+	{
+		result [i] = start + (i * is_negative);
+		i++;
+	}
+	return (result);
+}
+
+// Ne pas rendre la main - Tester //
+

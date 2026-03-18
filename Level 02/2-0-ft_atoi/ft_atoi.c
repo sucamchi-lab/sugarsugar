@@ -1,42 +1,69 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/19 18:34:45 by angavrel          #+#    #+#             */
-/*   Updated: 2017/07/14 15:59:14 by fwuensch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdio.h> //
-
-int		ft_atoi(char *s)
+int		ft_atoi(const char *str)
 {
-	int		sign;
-	long	r;
+	{
+		int		i;
+		int		nbr;
+		int		negative;
 
-	r = 0;
-	sign = 1;
-	while (*s == 32 || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
-	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		nbr = 0;
+		negative = 0;
+		i = 0;
+		while ((str[i] == '\n') || (str[i] == '\t') || (str[i] == '\v') ||
+				(str[i] == ' ') || (str[i] == '\f') || (str[i] == '\r'))
+			i++;
+		if (str[i] == '-')
+			negative = 1;
+		if (str[i] == '+' || str[i] == '-')
+			i++;
+		while (str[i] && (str[i] >= '0') && (str[i] <= '9'))
+		{
+			nbr *= 10;
+			nbr += (int)str[i] - '0';
+			i++;
+		}
+		if (negative == 1)
+			return (-nbr);
+		else
+			return (nbr);
 	}
-	while (*s >= '0' && *s <= '9')
-	{
-		r = r * 10 + *s - '0';
-		s++;
-	}
-	return (sign * (int)r);
 }
 
-int		main(void)//
-{//
-	char a[] = "    \n\n\v\f\r\t -5234AAAgreghrsth";// -5234
-	printf("%d\n",ft_atoi(a));//
-}//
+// Ne pas rendre la main - Tester //
+
+#include <unistd.h>
+#include <stdlib.h>
+
+void	ft_putchar(char c)
+{
+	write(1 , &c, 1);
+}
+
+void	*ft_putnbr(int nb)
+{
+	if (nb < 0)
+	{
+		ft_putchar('-');
+		nb = -nb;
+	}
+	if (nb >= 10)
+	{
+		ft_putnbr(nb / 10);
+		ft_putnbr(nb % 10);
+	}
+	else
+		ft_putchar(nb + '0');
+	return (0);
+}
+
+int		main(int ac, char **av)
+{
+	if (ac != 2)
+		write(1, "Erreur d'argument !\n", 22);
+	else {
+		ft_putnbr(atoi(av[1]));
+		ft_putchar('\n');
+		ft_putnbr(ft_atoi(av[1]));
+		ft_putchar('\n');
+	}
+	return (0);
+}

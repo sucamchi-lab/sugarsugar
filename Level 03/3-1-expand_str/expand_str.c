@@ -1,45 +1,72 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expand_str.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/27 07:16:16 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/27 07:27:59 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 
-int		ft_isblank(char c)
+void	ft_putchar(char c)
 {
-	return ((c == ' ' || c == '\t') ? 1 : 0);
+	write(1, &c, 1);
 }
 
-void	expand_str(char *s)
+int		is_more_char(char *str, int i)
 {
-	int	i = 0;
-	int	wc = 0;
+	while (str[i])
+		if (str[i] == ' ' || str[i] == '\t')
+			i++;
+		else
+			return (1);
+	return (0);
+}
 
-	while (s[i])
-		if (!ft_isblank(s[i++]) && (!wc || ft_isblank(s[i - 2])))
-			++wc;
-	i = 0;
-	while (s[i])
+int		print_spaces(char c, int lol)
+{
+	if (lol)
 	{
-		if (!ft_isblank(s[i++]) && wc--)
-		{
-			write (1, &s[i - 1], 1);
-			while (s[i] && !ft_isblank(s[i]) && write(1, &s[i++], 1));
-			(wc) ? write(1, "   ", 3) : 0;
-		}
+		ft_putchar(c);
+		ft_putchar(c);
+		ft_putchar(c);
+		return (0);
+	}
+	else
+	{
+		ft_putchar(c);
+		return (1);
 	}
 }
 
-int		main(int ac, char **av)
+void	expand_str(char *str)
 {
-	if (ac == 2)
-		expand_str(av[1]);
-	write(1, "\n", 1);
+	int		i;
+	int		flag_end_word;
+	int		flag_sup;
+
+	i = 0;
+	flag_end_word = 0;
+	flag_sup = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			flag_end_word = print_spaces(str[i], 0);
+		else if (flag_end_word && is_more_char(str, i))
+			flag_end_word = print_spaces(' ', 1);
+		while (str[i] == ' ' || str[i] == '\t')
+		{
+			flag_sup = 1;
+			i++;
+		}
+		if (flag_sup && i-- > -10)
+			flag_sup = 0;
+		i++;
+	}
+	ft_putchar('\n');
+}
+
+int		main(int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		ft_putchar('\n');
+		return (0);
+	}
+	expand_str(argv[1]);
+	return (0);
 }
