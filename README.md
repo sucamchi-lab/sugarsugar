@@ -1,24 +1,54 @@
-# C-Piscine-exam | Exam Shell
+# 42 Exam Shell Practice Repository
 
-Get ready for your 1337/42 exams
+Practice repository for 42/1337-style C exam exercises, with a local exam shell simulator to train under realistic constraints.
 
-# Your mission
+## What this repo contains
 
-Every Friday, you will face an exam machine, but first, you have to log in to your session, and sadly I can't help you with that because as a pisciner you have to discover how you can log into your exam, so, RTFM / Ask your peers.
+- Solved exercises organized by level:
+  - Level 00
+  - Level 01
+  - Level 02
+  - Level 03
+  - Level 04
+  - Level 05
+- A local simulator to run mock exams from Levels 00-02:
+  - `./examshell` to start an exam
+  - `./grademe` to grade the current answer and move to the next question
 
-# Purpose
+## Quick start
 
-This git repo provides useful tips to understand how to achieve 100 at 1337/42 exams. However one should not memorize answers if not properly understood.
+From the repository root:
 
-# How can it help you?
+```sh
+git clone https://github.com/sucamchi-lab/sugarsugar.git
+cd sugarsugar
+chmod +x examshell grademe
+./examshell
+```
 
-You can take a look on this repo in order to practice and get ready to your exams and remember:
+Then edit the answer file shown by the simulator and run:
 
-- Don't push your exercises with the main function if they ask you to write only a function
-- Add a main.c file to exercises that are only functions (if you want to compile while practicing).
-- Create exercises inside the correct folders with the correct names before asking the machine to correct your exercises.
-- Practice, practice, practice, and good luck.
+```sh
+./grademe
+```
 
-## Here are my notes:
+## Simulator details
 
-<img src="https://user-images.githubusercontent.com/76871172/127734058-ca7bd5ca-2eb4-4833-b463-148ec8174c89.jpeg" width="400" height="160" >
+See the full simulator guide in [EXAMSHELL_SIMULATOR.md](EXAMSHELL_SIMULATOR.md).
+
+## Recommended practice workflow
+
+1. Start a new mock exam with `./examshell`.
+2. Solve each exercise in the generated answer file under `.examshell/work/answer/`.
+3. Run `./grademe` after each solution.
+4. Repeat regularly to improve speed and reliability.
+
+## Notes
+
+- Grading compiles with `-Wall -Wextra -Werror`.
+- The simulator compares your program behavior against the repository reference implementation.
+- `.examshell/` is temporary simulator state and is ignored by git.
+
+## Disclaimer
+
+This repository is for learning and practice. Focus on understanding each solution, not memorizing it.
