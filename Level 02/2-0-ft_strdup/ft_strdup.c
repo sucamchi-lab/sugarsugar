@@ -1,36 +1,35 @@
 #include <stdlib.h>
 
-char	*ft_strdup(char *src)
+int	ft_strlen(char *str)
 {
-	int		i;
-	char	*dest;
+	int	i;
 
 	i = 0;
-	while(src[i])
-	{
+	while (str[i] != '\0')
 		i++;
-	}
-	if ((dest = (char *)malloc(sizeof(char) * (i + 1))) == NULL)
-		return (NULL);
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	return(dest);
+	return (i);
 }
 
-// Ne pas rendre la main - Tester //
-
-#include <unistd.h>
-#include <stdio.h>
-
-int		main(void)
+char	*ft_strcpy(char *dst, char *src)
 {
-	char	*src;
+	int	i;
 
-	src = "coucou";
-	printf("%s \n", ft_strdup(src));
-	return (0);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+char	*ft_strdup(char *src)
+{
+	char	*dst;
+
+	*dst = malloc(sizeof(char) * (ft_strlen(src) + 1));
+	if (dst == NULL)
+		return (NULL);
+	return (ft_strcpy(dst, src));
 }
