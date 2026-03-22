@@ -3,38 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   rotone.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 17:42:14 by angavrel          #+#    #+#             */
-/*   Updated: 2017/01/28 17:52:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2026/03/22 14:33:08 by scamlett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	rotone(char *s)
-{
-	while (*s)
-	{
-		if ((*s >= 'A' && *s <= 'Y') || (*s >= 'a' && *s <= 'y'))
-			ft_putchar(*s + 1);
-		else if (*s == 'Z' || *s == 'z')
-			ft_putchar(*s - 25);
-		else
-			ft_putchar(*s);
-		++s;
-	}
-}
-
-int		main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac == 2)
-		rotone(av[1]);
-	ft_putchar('\n');
+	{
+		while (*av[1])
+		{
+			if (*av[1] >= 'a' && *av[1] <= 'z')
+				*av[1] = (*av[1] == 'z') ? 'a' : *av[1] + 1;
+			else if (*av[1] >= 'A' && *av[1] <= 'Z')
+				*av[1] = (*av[1] == 'Z') ? 'A' : *av[1] + 1;
+			write(1, av[1], 1);
+			++av[1];
+		}
+	}
+	write(1, "\n", 1);
 	return (0);
 }
