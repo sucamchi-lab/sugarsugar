@@ -1,6 +1,6 @@
 # 42 Exam Shell Practice Repository
 
-Practice repository for 42/1337-style C exam exercises, with a local exam shell simulator to train under realistic constraints.
+Practice repository for 42 C exam exercises, with a local exam shell simulator to train under realistic constraints.
 
 ## What this repo contains
 
