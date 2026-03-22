@@ -6,7 +6,7 @@
 /*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 17:42:14 by angavrel          #+#    #+#             */
-/*   Updated: 2026/03/22 14:33:08 by scamlett         ###   ########.fr       */
+/*   Updated: 2026/03/22 16:52:10 by scamlett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,14 @@ int	main(int ac, char **av)
 	{
 		while (*av[1])
 		{
-			if (*av[1] >= 'a' && *av[1] <= 'z')
+			if (*av[1] >= 'a' && *av[1] <= 'y')
 				*av[1] = (*av[1] == 'z') ? 'a' : *av[1] + 1;
-			else if (*av[1] >= 'A' && *av[1] <= 'Z')
+			else if (*av[1] >= 'A' && *av[1] <= 'Y')
 				*av[1] = (*av[1] == 'Z') ? 'A' : *av[1] + 1;
+			else if (*av[1] == 'z')
+				*av[1] = 'a';
+			else if (*av[1] == 'Z')
+				*av[1] = 'A';
 			write(1, av[1], 1);
 			++av[1];
 		}
