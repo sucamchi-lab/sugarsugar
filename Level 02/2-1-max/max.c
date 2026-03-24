@@ -1,8 +1,10 @@
-int		max(int *tab, unsigned int len)
+int	max(int *tab, unsigned int len)
 {
 	unsigned int	cmp;
 	int				cpy;
 
+	if (len == 0)
+		return (0);
 	cmp = 0;
 	cpy = tab[0];
 	while (cmp < len)
@@ -11,7 +13,5 @@ int		max(int *tab, unsigned int len)
 			cpy = tab[cmp];
 		++cmp;
 	}
-	if (cmp == len)
-		return (cpy);
-	return (0);
+	return (cpy);
 }

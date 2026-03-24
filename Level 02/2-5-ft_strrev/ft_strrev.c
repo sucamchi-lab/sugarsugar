@@ -23,12 +23,3 @@ char	*ft_strrev(char *str)
 	}
 	return (str);
 }
-
-// Ne pas rendre la main - Tester //
-#include <stdio.h>
-
-int	main(int ac, char **av)
-{
-	printf("%s\n", ft_strrev(av[1]));
-	return (0);
-}
