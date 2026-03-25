@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from collections import Counter
 import json
 import os
 import random
@@ -23,7 +24,8 @@ ANSWER_DIR = WORK_DIR / "answer"
 BUILD_DIR = WORK_DIR / "build"
 
 LEVEL_DIRS = ["Level 00", "Level 01", "Level 02"]
-QUESTIONS_PER_LEVEL = {0: 3, 1: 3, 2: 4}
+QUESTION_LEVEL_SEQUENCE = [0, 0, 1, 1, 1, 1, 1, 2, 2, 2]
+QUESTIONS_PER_LEVEL = dict(Counter(QUESTION_LEVEL_SEQUENCE))
 TOTAL_QUESTIONS = 10
 TIMEOUT_SECONDS = 1.5
 TEST_CASES = 50
@@ -112,21 +114,14 @@ def choose_exam_questions(all_questions: List[Question]) -> List[Question]:
         if q.level in grouped:
             grouped[q.level].append(q)
 
-    selected: List[Question] = []
     rng = random.Random()
-    for level in [0, 1, 2]:
-        pool = grouped[level]
+    for level, pool in grouped.items():
         rng.shuffle(pool)
-        count = min(QUESTIONS_PER_LEVEL[level], len(pool))
-        selected.extend(pool[:count])
 
-    if len(selected) < TOTAL_QUESTIONS:
-        remaining = [q for q in all_questions if q not in selected]
-        rng.shuffle(remaining)
-        selected.extend(remaining[: TOTAL_QUESTIONS - len(selected)])
+    selected: List[Question] = []
+    for level in QUESTION_LEVEL_SEQUENCE:
+        selected.append(grouped[level].pop())
 
-    selected = selected[:TOTAL_QUESTIONS]
-    selected.sort(key=lambda q: (q.level, q.bucket, q.exercise))
     return selected
 
 
@@ -287,6 +282,25 @@ def compare_outputs(ref_bin: Path, user_bin: Path, seed: int) -> Tuple[bool, str
 
 def command_start(_: argparse.Namespace) -> int:
     all_questions = discover_questions()
+    available_per_level = Counter(q.level for q in all_questions)
+    missing_levels = [
+        level for level, needed in QUESTIONS_PER_LEVEL.items()
+        if available_per_level.get(level, 0) < needed
+    ]
+    if missing_levels:
+        print(
+            "Not enough questions to satisfy required exam distribution "
+            "(2x Level 00, 5x Level 01, 3x Level 02).",
+            file=sys.stderr,
+        )
+        for level in sorted(missing_levels):
+            print(
+                f"Level {level:02d}: need {QUESTIONS_PER_LEVEL[level]}, "
+                f"found {available_per_level.get(level, 0)}",
+                file=sys.stderr,
+            )
+        return 1
+
     if len(all_questions) < TOTAL_QUESTIONS:
         print(
             f"Not enough questions with a main function in Level 00-02. "
@@ -307,7 +321,7 @@ def command_start(_: argparse.Namespace) -> int:
     write_state(state)
     seed_answer_file(state["questions"][0])
 
-    print("Mock exam created: 10 questions, increasing difficulty (Level 00 -> 02).")
+    print("Mock exam created: 10 questions (2x L00, 5x L01, 3x L02).")
     print(f"Workspace: {WORK_DIR}")
     print()
     display_question(state)

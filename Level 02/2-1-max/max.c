@@ -1,17 +1,17 @@
 int	max(int *tab, unsigned int len)
 {
-	unsigned int	cmp;
-	int				cpy;
+	unsigned int	i;
+	int				max;
 
 	if (len == 0)
 		return (0);
-	cmp = 0;
-	cpy = tab[0];
-	while (cmp < len)
+	max = tab[0];
+	i = 1;
+	while (i < len)
 	{
-		if (cpy < tab[cmp])
-			cpy = tab[cmp];
-		++cmp;
+		if (tab[i] > max)
+			max = tab[i];
+		i++;
 	}
-	return (cpy);
+	return (max);
 }

@@ -6,7 +6,7 @@
 /*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/27 06:47:44 by angavrel          #+#    #+#             */
-/*   Updated: 2026/03/18 18:02:25 by scamlett         ###   ########.fr       */
+/*   Updated: 2026/03/25 14:18:57 by scamlett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,11 @@ int	is_power_of_2(unsigned int n)
 {
 	if (n == 0)
 		return (0);
-	return ((n & (n - 1)) == 0);
+	while (n > 1)
+	{
+		if (n % 2 != 0)
+			return (0);
+		n /= 2;
+	}
+	return (1);
 }

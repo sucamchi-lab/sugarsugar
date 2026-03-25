@@ -1,6 +1,6 @@
 char	*ft_strrev(char *str)
 {
-	char	c;
+	char	temp;
 	int		i;
 	int		y;
 
@@ -15,9 +15,9 @@ char	*ft_strrev(char *str)
 	{
 		if (i == y)
 			break ;
-		c = str[i];
+		temp = str[i];
 		str[i] = str[y];
-		str[y] = c;
+		str[y] = temp;
 		i--;
 		y++;
 	}
