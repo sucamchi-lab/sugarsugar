@@ -41,7 +41,7 @@ class Question:
     subject_file: Path
     has_main: bool
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self) -> Dict[str, int | str | bool]:
         return {
             "level": self.level,
             "bucket": self.bucket,

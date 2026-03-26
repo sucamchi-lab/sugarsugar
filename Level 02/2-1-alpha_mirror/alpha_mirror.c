@@ -1,29 +1,24 @@
 #include <unistd.h>
 
-void	ft_putchar(char c)
-{
-	write (1, &c, 1);
-}
-
 int	main(int argc, char **argv)
 {
-	const char	tab[] = "zyxwvutsrqponmlkjihgfedcba";
-	char		*str = argv[1];
-	int			i;
+	char	c;
+	int		i;
 
-	i = 0;
 	if (argc == 2)
 	{
-		while (str[i])
+		i = 0;
+		while (argv[1][i])
 		{
-			if (str[i] >= 'a' && str[i] <= 'z')
-				str[i] = tab[str[i] - 'a'];
-			if (str[i] >= 'A' && str[i] <= 'Z')
-				str[i] = tab[str[i] - 'A'] - 32;
-			ft_putchar(str[i]);
+			c = argv[1][i];
+			if (c >= 'a' && c <= 'z')
+				c = 'z' - (c - 'a');
+			else if (c >= 'A' && c <= 'Z')
+				c = 'Z' - (c - 'A');
+			write(1, &c, 1);
 			i++;
 		}
 	}
-	ft_putchar('\n');
+	write(1, "\n", 1);
 	return (0);
 }
