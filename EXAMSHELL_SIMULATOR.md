@@ -1,12 +1,11 @@
-# 42 Piscine Examshell Simulator (Level 00-02)
+# 42 Exam Rank 02 Simulator
 
-This simulator creates a mock exam of 10 questions using exercises from:
+This simulator creates a mock **Exam Rank 02** of 4 questions using exercises from:
 
-- `Level 00`
 - `Level 01`
 - `Level 02`
 
-Questions are selected in increasing difficulty order (level 00 -> 01 -> 02).
+Questions are selected randomly from the local Rank 02 pool (Level 01/02 exercises only).
 
 ## Commands
 
@@ -47,7 +46,7 @@ State and temporary files are stored in:
 .examshell/
 ```
 
-Running `./examshell` starts a fresh exam and resets previous simulator state.
+Running `./examshell` starts a fresh Rank 02 exam and resets previous simulator state.
 
 ## Optional: run as `examshell` / `grademe` without `./`
 

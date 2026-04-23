@@ -1,44 +1,39 @@
-unsigned char   reverse_bits(unsigned char octet)
-{
-    return  (((octet >> 0) & 1) << 7) | \
-            (((octet >> 1) & 1) << 6) | \
-            (((octet >> 2) & 1) << 5) | \
-            (((octet >> 3) & 1) << 4) | \
-            (((octet >> 4) & 1) << 3) | \
-            (((octet >> 5) & 1) << 2) | \
-            (((octet >> 6) & 1) << 1) | \
-            (((octet >> 7) & 1) << 0);
-}
+/*
 
-unsigned char	reverse_bits2(unsigned char octet)
-{
-	unsigned char	res;
-	int				count;
+Assignment name  : reverse_bits
+Expected files   : reverse_bits.c
+Allowed functions:
+--------------------------------------------------------------------------------
 
-	res = 0;
-	count = 8;
-	while (count)
+Write a function that takes a byte, reverses it, bit by bit (like the
+example) and returns the result.
+
+Your function must be declared as follows:
+
+unsigned char	reverse_bits(unsigned char octet);
+
+Example:
+
+  1 byte
+_____________
+ 0100  0001
+     ||
+     \/
+ 1000  0010
+
+*/
+
+unsigned char	reverse_bits(unsigned char octet)
+{
+	int				i;
+	unsigned char	result;
+
+	i = 8;
+	result = 0;
+	while (i--)
 	{
-		res = res * 2 + (octet % 2);
-		octet = octet / 2;
-		count--;
+		result = (result << 1) | (octet & 1);
+		octet >>= 1;
 	}
-	return (res);
-}
-
-// Ne pas rendre la main - Tester //
-
-#include <stdlib.h>
-#include <stdio.h>
-
-int		main(int ac, char **av)
-{
-	if (ac == 2)
-	{
-		printf("%d\n", reverse_bits(atoi(av[1])));
-		printf("%d\n", reverse_bits2(atoi(av[1])));
-	}
-	else
-		printf("%s\n", "Aucun d'argument");
-	return (0);
+	return (result);
 }

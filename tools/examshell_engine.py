@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-from collections import Counter
 import json
 import os
 import random
@@ -23,12 +22,47 @@ WORK_DIR = STATE_DIR / "work"
 ANSWER_DIR = WORK_DIR / "answer"
 BUILD_DIR = WORK_DIR / "build"
 
-LEVEL_DIRS = ["Level 00", "Level 01", "Level 02"]
-QUESTION_LEVEL_SEQUENCE = [0, 0, 1, 1, 1, 1, 1, 2, 2, 2]
-QUESTIONS_PER_LEVEL = dict(Counter(QUESTION_LEVEL_SEQUENCE))
-TOTAL_QUESTIONS = 10
+LEVEL_DIRS = ["Level 01", "Level 02"]
+TOTAL_QUESTIONS = 4
 TIMEOUT_SECONDS = 1.5
 TEST_CASES = 50
+RANK02_LEVEL1_EXERCISES = {
+    "first_word",
+    "fizzbuzz",
+    "ft_strcpy",
+    "ft_strlen",
+    "ft_swap",
+    "ft_putstr",
+    "repeat_alpha",
+    "rev_print",
+    "rot_13",
+    "rotone",
+    "search_and_replace",
+    "ulstr",
+}
+RANK02_LEVEL2_EXERCISES = {
+    "alpha_mirror",
+    "camel_to_snake",
+    "do_op",
+    "ft_atoi",
+    "ft_strcmp",
+    "ft_strcspn",
+    "ft_strdup",
+    "ft_strpbrk",
+    "ft_strrev",
+    "ft_strspn",
+    "inter",
+    "is_power_of_2",
+    "last_word",
+    "max",
+    "print_bits",
+    "reverse_bits",
+    "snake_to_camel",
+    "swap_bits",
+    "union",
+    "wdmatch",
+}
+RANK02_EXERCISE_ALIASES = {}
 
 
 @dataclass
@@ -68,6 +102,11 @@ def has_main_function(source: Path) -> bool:
     return re.search(r"\bmain\s*\(", content) is not None
 
 
+def canonical_exercise_name(dirname: str) -> str:
+    name = re.sub(r"^\d+-\d+-", "", dirname)
+    return RANK02_EXERCISE_ALIASES.get(name, name)
+
+
 def discover_questions() -> List[Question]:
     questions: List[Question] = []
     for level_dir in LEVEL_DIRS:
@@ -80,6 +119,13 @@ def discover_questions() -> List[Question]:
             try:
                 level, bucket = parse_level_and_bucket(entry.name)
             except ValueError:
+                continue
+            if level not in (1, 2):
+                continue
+            canonical = canonical_exercise_name(entry.name)
+            if level == 1 and canonical not in RANK02_LEVEL1_EXERCISES:
+                continue
+            if level == 2 and canonical not in RANK02_LEVEL2_EXERCISES:
                 continue
 
             source_candidates = sorted(
@@ -111,20 +157,8 @@ def discover_questions() -> List[Question]:
 
 
 def choose_exam_questions(all_questions: List[Question]) -> List[Question]:
-    grouped: Dict[int, List[Question]] = {0: [], 1: [], 2: []}
-    for q in all_questions:
-        if q.level in grouped:
-            grouped[q.level].append(q)
-
     rng = random.Random()
-    for level, pool in grouped.items():
-        rng.shuffle(pool)
-
-    selected: List[Question] = []
-    for level in QUESTION_LEVEL_SEQUENCE:
-        selected.append(grouped[level].pop())
-
-    return selected
+    return rng.sample(all_questions, TOTAL_QUESTIONS)
 
 
 def reset_workdirs() -> None:
@@ -288,17 +322,7 @@ def compare_outputs(ref_bin: Path, user_bin: Path, seed: int) -> Tuple[bool, str
 
 def build_function_harness(exercise: str) -> str:
     harnesses = {
-        "0-0-ft_print_numbers": r'''#include <unistd.h>
-
-void ft_print_numbers(void);
-
-int main(void)
-{
-    ft_print_numbers();
-    return 0;
-}
-''',
-        "1-0-ft_strcpy": r'''#include <stdio.h>
+        "ft_strcpy": r'''#include <stdio.h>
 
 char *ft_strcpy(char *s1, char *s2);
 
@@ -318,7 +342,7 @@ int main(void)
     return 0;
 }
 ''',
-        "1-0-ft_strlen": r'''#include <stdio.h>
+        "ft_strlen": r'''#include <stdio.h>
 
 int ft_strlen(char *str);
 
@@ -336,7 +360,7 @@ int main(void)
     return 0;
 }
 ''',
-        "1-2-ft_putstr": r'''#include <unistd.h>
+        "ft_putstr": r'''#include <unistd.h>
 
 void ft_putstr(char *str);
 
@@ -355,7 +379,7 @@ int main(void)
     return 0;
 }
 ''',
-        "1-2-ft_swap": r'''#include <stdio.h>
+        "ft_swap": r'''#include <stdio.h>
 #include <limits.h>
 
 void ft_swap(int *a, int *b);
@@ -385,7 +409,7 @@ int main(void)
     return 0;
 }
 ''',
-        "1-5-ft_atoi": r'''#include <stdio.h>
+        "ft_atoi": r'''#include <stdio.h>
 
 int ft_atoi(const char *str);
 
@@ -415,27 +439,7 @@ int main(void)
     return 0;
 }
 ''',
-        "1-6-ft_putnbr": r'''#include <unistd.h>
-#include <limits.h>
-
-void ft_putnbr(int nb);
-
-int main(void)
-{
-    int cases[] = {0, 1, -1, 42, -42, INT_MAX, INT_MIN};
-    int i;
-
-    i = 0;
-    while (i < (int)(sizeof(cases) / sizeof(cases[0])))
-    {
-        ft_putnbr(cases[i]);
-        write(1, "\n", 1);
-        i++;
-    }
-    return 0;
-}
-''',
-        "2-0-ft_strdup": r'''#include <stdio.h>
+        "ft_strdup": r'''#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -470,7 +474,7 @@ int main(void)
     return 0;
 }
 ''',
-        "2-1-max": r'''#include <stdio.h>
+        "max": r'''#include <stdio.h>
 
 int max(int *tab, unsigned int len);
 
@@ -489,7 +493,7 @@ int main(void)
     return 0;
 }
 ''',
-        "2-5-ft_strcmp": r'''#include <stdio.h>
+        "ft_strcmp": r'''#include <stdio.h>
 
 int ft_strcmp(char *s1, char *s2);
 
@@ -508,7 +512,7 @@ int main(void)
     return 0;
 }
 ''',
-        "2-5-ft_strrev": r'''#include <stdio.h>
+        "ft_strrev": r'''#include <stdio.h>
 
 char *ft_strrev(char *str);
 
@@ -532,7 +536,7 @@ int main(void)
     return 0;
 }
 ''',
-        "2-6-is_power_of_2": r'''#include <stdio.h>
+        "is_power_of_2": r'''#include <stdio.h>
 
 int is_power_of_2(unsigned int n);
 
@@ -550,12 +554,116 @@ int main(void)
     return 0;
 }
 ''',
+        "reverse_bits": r'''#include <stdio.h>
+
+unsigned char reverse_bits(unsigned char octet);
+
+int main(void)
+{
+    unsigned int cases[] = {0, 1, 2, 15, 16, 64, 128, 255};
+    int i;
+
+    i = 0;
+    while (i < (int)(sizeof(cases) / sizeof(cases[0])))
+    {
+        printf("%u\n", (unsigned int)reverse_bits((unsigned char)cases[i]));
+        i++;
+    }
+    return 0;
+}
+''',
+        "swap_bits": r'''#include <stdio.h>
+
+unsigned char swap_bits(unsigned char octet);
+
+int main(void)
+{
+    unsigned int cases[] = {0, 1, 2, 15, 16, 64, 128, 255};
+    int i;
+
+    i = 0;
+    while (i < (int)(sizeof(cases) / sizeof(cases[0])))
+    {
+        printf("%u\n", (unsigned int)swap_bits((unsigned char)cases[i]));
+        i++;
+    }
+    return 0;
+}
+''',
+        "print_bits": r'''#include <unistd.h>
+
+void print_bits(unsigned char octet);
+
+int main(void)
+{
+    unsigned int cases[] = {0, 1, 2, 15, 16, 64, 128, 255};
+    int i;
+
+    i = 0;
+    while (i < (int)(sizeof(cases) / sizeof(cases[0])))
+    {
+        print_bits((unsigned char)cases[i]);
+        write(1, "\n", 1);
+        i++;
+    }
+    return 0;
+}
+''',
+        "ft_strcspn": r'''#include <stdio.h>
+
+size_t ft_strcspn(const char *s, const char *reject);
+
+int main(void)
+{
+    printf("%zu\n", ft_strcspn("abcde", "x"));
+    printf("%zu\n", ft_strcspn("abcde", "cd"));
+    printf("%zu\n", ft_strcspn("hello world", " "));
+    printf("%zu\n", ft_strcspn("", "abc"));
+    printf("%zu\n", ft_strcspn("abcdef", ""));
+    return 0;
+}
+''',
+        "ft_strpbrk": r'''#include <stdio.h>
+
+char *ft_strpbrk(const char *s, const char *accept);
+
+int main(void)
+{
+    char *ret;
+
+    ret = ft_strpbrk("abcde", "x");
+    printf("%s\n", ret ? ret : "(null)");
+    ret = ft_strpbrk("abcde", "dc");
+    printf("%s\n", ret ? ret : "(null)");
+    ret = ft_strpbrk("hello world", " ow");
+    printf("%s\n", ret ? ret : "(null)");
+    ret = ft_strpbrk("", "abc");
+    printf("%s\n", ret ? ret : "(null)");
+    ret = ft_strpbrk("abcdef", "");
+    printf("%s\n", ret ? ret : "(null)");
+    return 0;
+}
+''',
+        "ft_strspn": r'''#include <stdio.h>
+
+size_t ft_strspn(const char *s, const char *accept);
+
+int main(void)
+{
+    printf("%zu\n", ft_strspn("abcde", "abc"));
+    printf("%zu\n", ft_strspn("abcde", "abxyz"));
+    printf("%zu\n", ft_strspn("hello world", "helowrd "));
+    printf("%zu\n", ft_strspn("", "abc"));
+    printf("%zu\n", ft_strspn("abcdef", ""));
+    return 0;
+}
+''',
     }
     return harnesses.get(exercise, "")
 
 
 def compare_function_exercise_outputs(ref_source: Path, user_source: Path, exercise: str) -> Tuple[bool, str]:
-    harness_src = build_function_harness(exercise)
+    harness_src = build_function_harness(canonical_exercise_name(exercise))
     if not harness_src:
         return False, f"Internal error: no test harness defined for function exercise '{exercise}'."
 
@@ -598,29 +706,10 @@ def compare_function_exercise_outputs(ref_source: Path, user_source: Path, exerc
 
 def command_start(_: argparse.Namespace) -> int:
     all_questions = discover_questions()
-    available_per_level = Counter(q.level for q in all_questions)
-    missing_levels = [
-        level for level, needed in QUESTIONS_PER_LEVEL.items()
-        if available_per_level.get(level, 0) < needed
-    ]
-    if missing_levels:
-        print(
-            "Not enough questions to satisfy required exam distribution "
-            "(2x Level 00, 5x Level 01, 3x Level 02).",
-            file=sys.stderr,
-        )
-        for level in sorted(missing_levels):
-            print(
-                f"Level {level:02d}: need {QUESTIONS_PER_LEVEL[level]}, "
-                f"found {available_per_level.get(level, 0)}",
-                file=sys.stderr,
-            )
-        return 1
-
     if len(all_questions) < TOTAL_QUESTIONS:
         print(
-            f"Not enough questions in Level 00-02. "
-            f"Found {len(all_questions)}.",
+            "Not enough Rank 02 questions from Level 01/02 pool. "
+            f"Need {TOTAL_QUESTIONS}, found {len(all_questions)}.",
             file=sys.stderr,
         )
         return 1
@@ -637,7 +726,7 @@ def command_start(_: argparse.Namespace) -> int:
     write_state(state)
     seed_answer_file(state["questions"][0])
 
-    print("Mock exam created: 10 questions (2x L00, 5x L01, 3x L02).")
+    print("Mock exam created: 4 questions (Rank 02 Level 1/2 pool).")
     print(f"Workspace: {WORK_DIR}")
     print()
     display_question(state)

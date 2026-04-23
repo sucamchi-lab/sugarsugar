@@ -35,4 +35,5 @@ fizzbuzz
 98
 fizz
 buzz
-$> 
+$>
+

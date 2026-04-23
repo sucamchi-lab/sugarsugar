@@ -1,25 +1,32 @@
-char	*ft_strrev(char *str)
-{
-	char	temp;
-	int		i;
-	int		y;
+/*
 
-	i = 0;
-	while (str[i])
-		i++;
-	i--;
-	if (i < 1)
-		return (str);
-	y = 0;
-	while (i > y)
-	{
-		if (i == y)
-			break ;
-		temp = str[i];
-		str[i] = str[y];
-		str[y] = temp;
-		i--;
-		y++;
-	}
-	return (str);
+Assignment name  : ft_strrev
+Expected files   : ft_strrev.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Write a function that reverses (in-place) a string.
+
+It must return its parameter.
+
+Your function must be declared as follows:
+
+char    *ft_strrev(char *str);
+
+*/
+
+#include <stdio.h>
+
+char    *ft_strrev(char *str) {
+    char tmp;
+    int len = -1;
+    int i = -1;
+    while(str[++len]);
+    while(len/2 > ++i) {
+        tmp = str[i];
+        str[i] = str[len-1];
+        str[len-1] = tmp;
+        len--;
+    }
+    return str;
 }

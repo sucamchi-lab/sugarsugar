@@ -1,17 +1,11 @@
 # 42 Exam Shell Practice Repository
 
-Practice repository for 42 C exam exercises, with a local exam shell simulator to train under realistic constraints.
+Practice repository for 42 C exam exercises, with a local Exam Rank 02 shell simulator to train under realistic constraints.
 
 ## What this repo contains
 
-- Solved exercises organized by level:
-  - Level 00
-  - Level 01
-  - Level 02
-  - Level 03
-  - Level 04
-  - Level 05
-- A local simulator to run mock exams from Levels 00-02:
+- Solved exercises organized by level
+- A local simulator to run mock Exam Rank 02 sessions:
   - `./examshell` to start an exam
   - `./grademe` to grade the current answer and move to the next question
 

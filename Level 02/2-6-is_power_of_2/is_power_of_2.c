@@ -1,24 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   is_power_of_2.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: scamlett <scamlett@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/27 06:47:44 by angavrel          #+#    #+#             */
-/*   Updated: 2026/03/25 14:18:57 by scamlett         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+
+Assignment name  : is_power_of_2
+Expected files   : is_power_of_2.c
+Allowed functions: None
+--------------------------------------------------------------------------------
+
+Write a function that determines if a given number is a power of 2.
+
+This function returns 1 if the given number is a power of 2, otherwise it returns 0.
+
+Your function must be declared as follows:
+
+int	    is_power_of_2(unsigned int n);
+
+*/
 
 int	is_power_of_2(unsigned int n)
 {
 	if (n == 0)
 		return (0);
-	while (n > 1)
-	{
-		if (n % 2 != 0)
-			return (0);
-		n /= 2;
-	}
-	return (1);
+	return ((n & (n - 1)) == 0);
 }
