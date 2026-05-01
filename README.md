@@ -14,8 +14,8 @@ Practice repository for 42 C exam exercises, with a local Exam Rank 02 shell sim
 From the repository root:
 
 ```sh
-git clone https://github.com/sucamchi-lab/sugarsugar.git
-cd sugarsugar
+git clone https://github.com/sucamchi-lab/susishell.git
+cd susishell
 chmod +x examshell grademe
 ./examshell
 ```
